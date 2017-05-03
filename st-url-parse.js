@@ -1,15 +1,31 @@
 /**
  * author: Stevin D Jimmy
  * name: url-parse
- * version: 0.1.1beta
+ * version: 0.1.2beta
  */
 
 var currentUrlString = location.href,
     currentUrlParse = new urlParse(currentUrlString),
     nowUrl = currentUrlParse;
-
+//
+function differPath(importedString, webPath, appPath, originPath) {
+    var exportString;
+    switch (importedString) {
+        case 'web':
+            exportString = webPath;
+            break;
+        case 'appPath':
+            exportString = appPath;
+            break;
+        default: //case undefined
+            exportString = originPath;
+            break;
+    }
+    return exportString;
+}
+//
 function urlParse(urlString) {
-    this.version = '0.1.1beta';
+    this.version = '0.1.2beta';
     this.full = urlString;
     this.query = urlString.slice(urlString.indexOf("?") + 1);
     this.queryFunc = function() {
@@ -31,7 +47,9 @@ function urlParse(urlString) {
     this.path = urlString.slice(0, urlString.indexOf("?"));
     this.filePath = this.path.slice(this.protocol.length + this.host.length);
     this.replacer = function(replacer) {
-        var replaceString = this.query;
+        var replaceString = this.query,
+            replacedNewURL,
+            replacedNewUrlParse;
         for (var rep in replacer) {
             var matchRegExp = new RegExp(rep + "=(\\w+)", "gi"),
                 matchExpression = replaceString.match(matchRegExp);
@@ -84,6 +102,32 @@ function urlParse(urlString) {
     this.pbUrl = {
         app: this.protocol + this.host + "/app/index.php?",
         web: this.protocol + this.host + "/web/index.php?"
+    };
+    this.combine = function(queryString, pathString) {
+        var combinedUrlString,
+            combinedUrlParse;
+        combinedUrlString = pathString + "?" + queryString;
+        combinedUrlParse = new urlParse(combinedUrlString);
+        return combinedUrlParse;
+
+    };
+    this.byReplacer = function(replaceReference, webOrApp) {
+        var newQuery = this.replacer(replaceReference),
+            replacedPathString = differPath(webOrApp, this.pbUrl.web, this.pbUrl.app, this.path),
+            newUrlParse = this.combine(newQuery, replacedPathString);
+        return newUrlParse;
+    };
+    this.byAdder = function(adderReference, webOrApp) {
+        var addedQuery = this.adder(adderReference),
+            addedPathString = differPath(webOrApp, this.pbUrl.web, this.pbUrl.app, this.path),
+            addedUrlParse = this.combine(addedQuery, addedPathString);
+        return addedUrlParse;
+    }
+    this.byDeleter = function(deleterReference, webOrApp) {
+        var deletedQuery = this.deleter(deleterReference),
+            deletedPathString = differPath(webOrApp, this.pbUrl.web, this.pbUrl.app, this.path),
+            deletedUrlParse = this.combine(deletedQuery, deletedPathString);
+        return deletedUrlParse;
     }
 }
 console.log("default url parse is currentUrlParse");
