@@ -1,19 +1,19 @@
 'use strict';
-
+// version: ???
 (function(factory) {
     if (typeof define == 'function' && define.amd) {
         define(function() {
             return factory();
         });
     } else {
-        window.stjUrlClass = factory();
+        window.stUrlClass = factory();
     }
 })(function() {
     function trim(spaceString) {
         return spaceString.replace(/^(\s)*|(\s*)$/, '');
     }
 
-    function stjUrlClass(urlString) {
+    function stUrlClass(urlString) {
         if (!urlString) {
             urlString = location.href;
         } else {
@@ -36,7 +36,8 @@
         this.createWebUrl = this.web;
     }
 
-    stjUrlClass.prototype = {
+    stUrlClass.prototype = {
+        updateAt: "17/10/09-14:43",
         getHash: function(urlStr) {
             var hash = /\#([\w|=|&|%|\.]+)(\??)/gi.exec(urlStr);
             return hash ? hash[1] : null;
@@ -73,14 +74,14 @@
                 var queryCouple = queryDivide[qd].split("=");
                 queryObj[queryCouple[0]] = queryCouple[1];
             }
-
             if (queryObj.eid) {
-                console.log(queryObj.eid);
-                this.ajaxFunc(this.protocol + this.domain + "/index.php?get_eid=" + queryObj.eid, function(data) {
-                    var replyModuleInfo = JSON.parse(data);
-                    queryObj.m = replyModuleInfo.module;
-                    queryObj.do = replyModuleInfo.do;
-                }, true, "GET");
+                this.xmlHttp.open("GET", this.protocol + this.domain + "/global/php/entry/st_query.php?act=query_eid&eid=" + queryObj.eid, false);
+                this.xmlHttp.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                this.xmlHttp.send();
+                var replyModuleInfo = JSON.parse(this.xmlHttp.responseText);
+                queryObj.m = replyModuleInfo.module;
+                queryObj.do = replyModuleInfo.do;
+                delete queryObj.eid;
             }
             return queryObj;
         },
@@ -91,7 +92,13 @@
             if (!plateform) {
                 plateform = "app";
             }
-            var hisFullUrl = hisFullDomain + "/" + plateform + "/index.php?do=" + hisDo + "&m=" + this.queryObj.m;
+            var hisFullUrl = hisFullDomain + "/" + plateform + "/index.php?";
+            if (plateform == 'app') {
+                hisFullUrl += "c=entry";
+            } else {
+                hisFullUrl += "c=site&a=entry";
+            }
+            hisFullUrl += "&do=" + hisDo + "&m=" + this.queryObj.m;
             if (this.queryObj.i) {
                 hisFullUrl += "&i=" + this.queryObj.i;
             }
@@ -160,7 +167,7 @@
                 hisQueryStr += qo + "=" + hisQueryObj[qo] + "&";
             }
             var hisUrlStr = urlObj.fullPath + hisQueryStr.slice(0, -1);
-            return new stjUrlClass(hisUrlStr);
+            return new stUrlClass(hisUrlStr);
         },
         operateQuery: function(addQueryKeys, delQueryKeys) {
             var returnUrl = this.addQuery(addQueryKeys);
@@ -168,8 +175,76 @@
                 returnUrl = returnUrl.delQuery(delQueryKeys);
             }
             return returnUrl;
-        }
+        },
+        getPlateform: function() {
+            var locate = this;
+            if (locate.fullPath.indexOf('app') > 0) {
+                return 'app';
+            } else {
+                return 'web';
+            }
+        },
+        redirect: function() {
+            /*
+                () => random
+                (do, otherQuery) || (do, interval),
+                (do, otherQuery, interval)
+                (do, otherQuery. plateform, interval)
+            */
+            var locate = this;
+            if (arguments.length <= 0) {
+                var randomKey = "r",
+                    randomVal = Math.floor(Math.random() * 10000);
+                redirectUrl = locate.addQuery(randomKey, randomVal).full;
+            } else {
+                var arg = arguments,
+                    plateform = locate.getPlateform(),
+                    redirectUrl = '',
+                    interval = 0;
+                if (!isNaN(Number(arguments[0]))) {
+                    interval = Number(arguments[0]);
+                    redirectUrl = locate.full;
+                } else {
+                    if (!isNaN(Number(arguments[1]))) {
+                        interval = Number(arguments[1]);
+                        redirectUrl = locate.wap(arguments[0]);
+                    } else {
+                        if (!isNaN(Number(arguments[2]))) {
+                            interval = Number(arguments[2]);
+                            // redirectUrl = locate.wap(arguments[0], arguments[1]);
+                            if (typeof arguments[1] == 'string') {
+                                plateform = arguments[1];
+                                if (plateform == 'app') {
+                                    redirectUrl = locate.wap(arguments[0]);
+                                } else {
+                                    redirectUrl = locate.web(arguments[0]);
+                                }
+                            } else {
+                                redirectUrl = locate.wap(arguments[0], arguments[1]);
+                            }
+                        } else {
+                            interval = parseInt(arguments[3]);
+                            plateform = arguments[2];
+                            if (plateform == 'app') {
+                                redirectUrl = locate.wap(arguments[0], arguments[1]);
+                            } else {
+                                redirectUrl = locate.web(arguments[0], arguments[1]);
+                            }
+                        }
+                    }
+                }
+                if (isNaN(interval)) {
+                    interval = 0;
+                }
+                if (interval > 0) {
+                    setTimeout(function() {
+                        location.href = redirectUrl;
+                    }, interval);
+                }
+            }
+            location.href = redirectUrl;
+        },
     };
 
-    return stjUrlClass;
+    return stUrlClass;
 });
