@@ -1,0 +1,43 @@
+@import "../init.less";
+.stpop-form{
+    .pbrow{
+        @labelWidth: 120px;
+        @rowHeight: 34px;
+        label{
+            width: @labelWidth;
+            padding-right: 10px;
+            display: block;
+            float: left;
+            text-align: right;
+            &:after{
+                content: ":",
+            }
+        }
+        .help-input{
+            width: calc(~"100% - @{labelWidth}");
+            float: left;
+        }
+        .inputs{
+            input{
+                width: 100%;
+                height: @rowHeight;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                display: block;
+                text-indent: 10px;
+            }
+        }
+        &.error{
+            label,
+            .help-text{
+                color: @colorError;
+            }
+            .help-text{
+                font-size: 12px;
+            }
+            input{
+                border-color: @colorError;
+            }
+        }
+    }
+}

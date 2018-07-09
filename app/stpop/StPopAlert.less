@@ -1,0 +1,13 @@
+@import "./StPop.less";
+.stpop-alert{
+    z-index: 9999;
+    .animation(.5s stpopFadeIn ease);
+    .stpop-box{
+        .provider(transition, 0.4s all ease);
+    }
+    &[alert-type="error"] {
+        .stpop-header{
+            background-color: #9a2828;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.pb-panel{
+    @borderRadius: 4px;
+    border: 1px solid #d2d2d2;
+    border-radius: @borderRadius;
+    .pb-panel-header{
+        padding: 10px 20px;
+        background-color: #e1e1f9;
+        color: #4d4d4d;
+    }
+    .pb-panel-body{
+        padding: 20px 30px; 
+    }
+    &>div:first-child{
+        border-top-left-radius: @borderRadius;
+        border-top-right-radius: @borderRadius;
+    }
+    &>div:last-child{
+        border-bottom-left-radius: @borderRadius;
+        border-bottom-right-radius: @borderRadius;
+    }
+}

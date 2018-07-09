@@ -1,0 +1,21 @@
+
+@import "../init";
+.addon-links-list{
+    .clear-float;
+    .addon-link{
+        @linkHeight: 34px;
+        height: @linkHeight;
+        padding:0 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        margin-right: 10px;
+        float: left;
+        line-height: @linkHeight;
+        cursor: pointer;
+        &[select="it"]{
+            border: 1px solid @colorBase;
+            background-color: @colorBase;
+            color: white;
+        }
+    }
+}

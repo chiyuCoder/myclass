@@ -1,0 +1,82 @@
+@import "../init";
+@url: "/public/styles/proDefault/imgs/app/";
+#navball{
+    width: 70px;
+    height: 70px;
+    .absolute(50%, 0px);
+    z-index: 10000;
+    .loadImg("@{url}navball.png");
+};
+#nav-list{
+    @topRadius: 20px;
+    @headerHeight: 30px;
+    width: 100%;
+    border-top-left-radius: @topRadius; 
+    border-top-right-radius: @topRadius; 
+    overflow: hidden;
+    .absolute(false, false, 0, 0);
+    z-index: 10000;
+    background: white;
+    display: none;
+    .nav-list-header{
+        height: @headerHeight;
+        border-bottom: 1px solid #e3e0e0;
+    }
+    .close-list{
+        width: 20px;
+        height: 20px;
+        .loadImg("@{url}close.png");
+        .absolute(5px, 10px);
+    }
+    .nav-list-body{
+        .app-list{
+            position: relative;
+            .clear-float;
+            .app-list-page{
+                width: 100%;
+                float: left;
+                .clear-float;
+                .app-item{
+                    width: 25%;
+                    height: 100px;
+                    padding: 15px 0;
+                    overflow: hidden;
+                    display: block;
+                    float: left;
+                    font-size: 12px;
+                    text-align: center;
+                    .app-figure{
+                        img{
+                            width: 50px;
+                            height: 50px;
+                            margin: 0 auto;
+                        }
+                    }
+                    .app-figcaption{
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+        }
+    }
+    .nav-list-footer{
+        ol{
+            width: 100%;
+            text-align: center;
+            list-style: none;
+            li{
+                width: 10px;
+                height: 10px;
+                margin: 0 5px;
+                border-radius: 100%;
+                display: inline-block;
+                background-color: #cccccc;
+                .boxedMargin();
+                &.active{
+                    background-color: #ff4040;
+                }
+            }
+        }
+    }
+}

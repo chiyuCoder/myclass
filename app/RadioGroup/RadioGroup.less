@@ -1,0 +1,26 @@
+@import "../init.less";
+[data-type="radio-group"]{
+    display: block;
+    .clear-float();
+    [data-type="radio"]{
+        float: left;
+        margin-right: 4px;
+        cursor: pointer;
+        &::before{
+            content: "\4e";
+            margin-right: 4px;
+            font-family: 'pbframe-prodefault';
+        }
+        &:last-child{
+            margin-right: 0;
+        }
+        &[check-status="checked"],
+        &[check-status="true"],
+        &[check-status="yes"]{
+            &::before{
+                content: "\4f";
+                color: #555dff;
+            }
+        }
+    }
+}

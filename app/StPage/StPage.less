@@ -1,0 +1,27 @@
+@import "../init";
+.pagers{
+    .page-item{
+        // width: 16px;
+        padding:0 4px;
+        height: 16px;
+        margin-right: 3px;
+        margin-left: 3px;
+        border-radius: 100%;
+        display: inline-block;
+        font-size: 12px;
+        line-height: 16px;
+        color: @colorBase;
+        cursor: pointer;
+        text-align: center;
+        &.on-page{
+            background-color: @colorBase;
+            color: white;
+        }
+        &:first-child{
+            margin-left: 0;
+        }
+        &:last-child{
+            margin-right: 0;
+        }
+    }
+}

@@ -1,0 +1,76 @@
+@import "../init";
+
+.keywords-panel{
+    .comment{
+        color: #b3b3b3;
+        p{
+            margin-bottom: 10px;
+        }
+    }    
+    .menu-list-box{
+        width: 240px;
+        margin-right: 60px;
+        float: left;
+        .text-center{
+            padding-top: 20px;
+        }
+    }
+    .menu-list{       
+        .menu-reply-item{
+            .clear-float;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            .item-reply-text{
+                float: left;
+                line-height: 32px;
+            }
+            .item-reply-img{
+                float: right;
+                img{
+                    width: 34px;
+                    height: 34px;
+                }
+            }
+            &:first-child{
+                @textHeight: 30px;
+                padding: 0;
+                position: relative;
+                .item-reply-img{
+                    width: 100%;
+                    height: 125px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .item-reply-text{
+                    width: 100%;
+                    padding: 0px 10px;
+                    .absolute(false, false, 0px, 0px);
+                    line-height: @textHeight;
+                }
+            }
+            &:nth-child(2n+1) {
+                background-color: #cccccc;
+            }
+        }
+    }
+    .menu-item{
+        float: left;
+        .pbrow{
+            @labelWidth: 34px;
+            font-size: 12px;
+            label{
+                width: @labelWidth;
+            }
+            .help-input{
+                width: calc(~"100% - @{labelWidth}");
+            }
+        }
+    }
+    .menu-item{
+        .help-input{
+            width: 380px!important;
+        }
+    }
+}

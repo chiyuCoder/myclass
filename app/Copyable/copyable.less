@@ -1,0 +1,19 @@
+@import "../init";
+.copyable{
+    cursor: pointer;
+}
+.success-copy{
+    position: relative;
+    &::after{
+        content: "复制成功";
+        width: 60px;
+        border-radius: 4px;
+        .absolute(0px, -65px);
+        background-color: @colorTip;
+        display: block;
+        font-size: 12px;
+        line-height: 20px;
+        text-align: center;
+        color: white;
+    }
+}

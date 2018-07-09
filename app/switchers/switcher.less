@@ -1,0 +1,61 @@
+@import "../init";
+
+.switcher,
+[data-type="switcher-input"]{
+    @switcherHeight: 24px;
+    width: 60px;
+    height: @switcherHeight;
+    border-radius:  @switcherHeight / 2;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    .switcher-box{
+        width: 200%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        .clear-float;
+        .provider(transition, .5s all ease);
+        &>div{
+            float: left;
+        }
+    }
+    &[now="off"] {
+        .switcher-box{
+            left: -100%;
+        }
+        .switcher-pointer{
+            left: 4px;
+        }
+    }
+    .switcher-on,
+    .switcher-off{
+        width: 50%;
+        height: 100%;
+        font-size: 12px;
+        line-height: @switcherHeight;
+        color: white;
+    }
+    .switcher-on{
+        padding-left: 6px;
+        background-color: #4cd964;
+    }
+    .switcher-off{
+        padding-right: 6px;
+        text-align: right;
+        background-color: #bec6d5;
+    }
+    .switcher-pointer{
+        width: 16px;
+        height: 16px;
+        border-radius: 100%;
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        left: 36px;
+        left: calc(~"100% - 24px");
+        .provider(transition, .5s all ease);
+        .provider(transform, translate(0, -50%));
+    }
+}
