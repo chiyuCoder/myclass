@@ -17,3 +17,5 @@
     + StUrl 
     + switchers 开关元素
     + VerifyCode 验证码
+    
+* 这个仓库仅作代码展示用，其中的代码均不能直接运行 *
